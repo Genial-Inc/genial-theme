@@ -96,9 +96,13 @@ nav a {
 
 nav a.active,
 nav a:hover {
-  background: linear-gradient(135deg, var(--brand-primary), var(--brand-primary-strong));
+  background: var(--brand-primary);
   color: white;
   box-shadow: 0 10px 24px rgba(61, 122, 90, 0.18);
+}
+
+nav a:hover {
+  background: var(--brand-primary-strong);
 }
 
 /* Hamburger menu button */
@@ -124,7 +128,7 @@ nav a:hover {
 
 /* BUTTONS */
 .btn {
-  background: linear-gradient(135deg, var(--brand-primary), var(--brand-primary-strong));
+  background: var(--brand-primary);
   color: white;
   padding: 0.8rem 2.1rem;
   border-radius: 999px;
@@ -134,10 +138,11 @@ nav a:hover {
   border: none;
   cursor: pointer;
   box-shadow: 0 12px 24px rgba(61, 122, 90, 0.18);
-  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.2s ease;
 }
 
 .btn:hover {
+  background: var(--brand-primary-strong);
   transform: translateY(-1px);
   box-shadow: 0 14px 28px rgba(61, 122, 90, 0.24);
 }
@@ -146,6 +151,10 @@ nav a:hover {
   background-color: var(--brand-primary);
   padding: 0.5rem 1.5rem;
   font-size: 0.9rem;
+}
+
+.btn-outline:hover {
+  background-color: var(--brand-primary-strong);
 }
 
 .btn-small {
@@ -384,6 +393,11 @@ img {
   border-radius: 50%;
   cursor: pointer;
   font-size: 1.2rem;
+  transition: background 0.2s ease;
+}
+
+.arrow:hover {
+  background: var(--brand-primary-strong);
 }
 
 /* CTA */
