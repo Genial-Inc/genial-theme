@@ -9,14 +9,14 @@
         <p class="hero-kicker">{{ .title }}</p>
         {{ end }}
 
-        {{ if isset . "quote" }}
-        <blockquote>{{ .quote }}</blockquote>
-        {{ if isset . "quoteAuthor" }}
-        <span class="quote-author">— {{ .quoteAuthor }}</span>
+        {{ with .quote }}
+        <blockquote>{{ . }}</blockquote>
+        {{ with $.Site.Params.hero.quoteAuthor }}
+        <span class="quote-author">— {{ . }}</span>
         {{ end }}
         {{ else }}
-        {{ if isset . "description" }}
-        <p class="hero-subtitle">{{ .description }}</p>
+        {{ with .description }}
+        <p class="hero-subtitle">{{ . }}</p>
         {{ end }}
         {{ end }}
 
