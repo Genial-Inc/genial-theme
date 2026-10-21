@@ -1,8 +1,10 @@
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: var(--header-height);
 }
 
 :root {
+  --header-height: 60px;
   --bg-body: #f6f3ee;
   --bg-nav: #efe6d3;
   --bg-project-card: #f0e5d4;
@@ -19,10 +21,6 @@ html {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-}
-
-html {
-  scroll-behavior: smooth;
 }
 
 body {
@@ -178,6 +176,7 @@ main {
 
 section {
   margin-bottom: 5rem;
+  scroll-margin-top: var(--header-height);
 }
 
 h1,
