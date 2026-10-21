@@ -8,7 +8,7 @@
     {{ $cssMain := resources.Get "css/style.css" | minify }}
     <link rel="stylesheet" type="text/css" href="{{ $cssMain.RelPermalink }}">
 </head>
-<body>
+<body style="--brand-primary: {{ .Site.Params.themeColor | default "#4d7f68" }}; --brand-primary-strong: {{ .Site.Params.themeColorStrong | default "#2d5247" }};">
     {{ partial "header.html" . }}
     
     <main>
