@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ .Title }} | Genial Inc.</title>
+    <link rel="icon" type="image/png" href="{{ .Site.Params.favicon | default "/images/genial_logo_petit.png" }}">
+    <link rel="shortcut icon" type="image/png" href="{{ .Site.Params.favicon | default "/images/genial_logo_petit.png" }}">
 
     {{ $cssMain := resources.Get "css/style.css" | minify }}
     <link rel="stylesheet" type="text/css" href="{{ $cssMain.RelPermalink }}">
