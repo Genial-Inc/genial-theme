@@ -158,27 +158,67 @@ img {
 }
 
 /* HERO */
-.hero {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
+.hero-banner {
+  position: relative;
+  display: flex;
   align-items: center;
-  min-height: 45vh;
+  justify-content: center;
+  min-height: 560px;
+  padding: 3rem 1.5rem;
+  border-radius: 32px;
+  background-image: linear-gradient(rgba(18, 24, 23, 0.42), rgba(18, 24, 23, 0.6)), var(--hero-image);
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 24px 60px rgba(34, 46, 36, 0.18);
+  overflow: hidden;
 }
 
-.hero-text {
-  margin: auto;
+.hero-banner__content {
+  position: relative;
+  z-index: 1;
+  max-width: 760px;
+  text-align: center;
+  color: #fff;
 }
 
-.hero h1 {
-  font-size: 3rem;
-  line-height: 1.1;
-  margin-bottom: 0;
+.hero-kicker {
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.9);
 }
 
-.hero .desc {
-  font-size: 1.5rem;
-  margin: 1rem 0;
+.hero-banner blockquote {
+  margin: 0;
+  font-size: clamp(2.4rem, 4vw, 5rem);
+  line-height: 1.08;
+  letter-spacing: -0.05em;
+  font-weight: 800;
+  text-wrap: balance;
+}
+
+.hero-subtitle {
+  font-size: 1.2rem;
+  margin-top: 1rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.quote-author {
+  display: block;
+  margin-top: 1rem;
+  font-size: 0.82rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.hero-btn {
+  margin-top: 1.8rem;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(3px);
 }
 
 .game-screen {

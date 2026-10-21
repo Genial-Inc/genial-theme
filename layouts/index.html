@@ -3,26 +3,27 @@
 <!-- HERO -->
 {{ if isset .Site.Params "hero" }}
 {{ with .Site.Params.hero }}
-<section class="hero">
-    <div class="hero-text">
+<section class="hero-banner" style="--hero-image: url('{{ .image | absURL }}');">
+    <div class="hero-banner__content">
         {{ if isset . "title" }}
-        <h1>{{ .title }}</h1>
+        <p class="hero-kicker">{{ .title }}</p>
         {{ end }}
 
+        {{ if isset . "quote" }}
+        <blockquote>{{ .quote }}</blockquote>
+        {{ if isset . "quoteAuthor" }}
+        <span class="quote-author">— {{ .quoteAuthor }}</span>
+        {{ end }}
+        {{ else }}
         {{ if isset . "description" }}
-        <p class="desc">{{ .description }}</p>
+        <p class="hero-subtitle">{{ .description }}</p>
+        {{ end }}
         {{ end }}
 
         {{ if isset . "button" }}
-        <a href="{{ .button.url }}" class="btn">{{ .button.text }}</a>
+        <a href="{{ .button.url }}" class="btn hero-btn">{{ .button.text }}</a>
         {{ end }}
     </div>
-
-    {{ if isset . "image" }}
-    <div class="hero-visual">
-        <img src="{{ .image }}" class="game-screen">
-    </div>
-    {{ end }}
 </section>
 {{ end }}
 {{ end }}
