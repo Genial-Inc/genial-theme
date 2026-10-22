@@ -11,10 +11,9 @@
             <span class="bar"></span>
         </button>
         <nav>
-            <a href="/" class="active">HOME</a>
-            <a href="#projects">Projets</a>
-            <a href="#team">La team</a>
-            <a href="#contact">Contact</a>
+            {{ range .Site.Menus.main }}
+            <a href="{{ .URL }}"{{ if eq .URL "/" }} class="active"{{ end }}>{{ .Name }}</a>
+            {{ end }}
         </nav>
     </div>
 </header>
