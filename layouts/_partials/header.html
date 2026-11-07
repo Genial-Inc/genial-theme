@@ -1,0 +1,33 @@
+<header class="site-header">
+  <div class="nav-container">
+    <a class="logo" href="{{ site.Home.RelPermalink }}">
+      <img src="{{ site.Params.bigLogo | default site.Params.smallLogo | relURL }}" alt="{{ site.Title }}" class="brand-logo" width="512" height="289">
+    </a>
+
+    <nav class="main-nav" id="main-nav" aria-label="{{ T "mainNavigation" }}">
+      <ul>
+        {{- range site.Menus.main }}
+          {{- $href := .URL }}
+          {{- $current := false }}
+          {{- with .Params.anchor }}
+            {{- /* Entry pointing to a section of the home page: works from any page and any language. */}}
+            {{- $href = printf "%s#%s" site.Home.RelPermalink . }}
+          {{- else }}
+            {{- $current = $.IsMenuCurrent "main" . }}
+          {{- end }}
+          <li><a href="{{ $href }}"{{ if $current }} aria-current="page"{{ end }}>{{ or (T .Identifier) .Name }}</a></li>
+        {{- end }}
+      </ul>
+    </nav>
+
+    <div class="nav-actions">
+      {{ partial "language-switcher.html" . }}
+      <button class="menu-toggle" type="button" aria-controls="main-nav" aria-expanded="false"
+        aria-label="{{ T "openMenu" }}" data-label-open="{{ T "openMenu" }}" data-label-close="{{ T "closeMenu" }}">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+    </div>
+  </div>
+</header>

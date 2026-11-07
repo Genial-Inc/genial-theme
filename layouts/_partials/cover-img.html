@@ -1,0 +1,18 @@
+{{- /*
+  Renders the cover image of a page bundle, or a placeholder when the bundle has no cover.*.
+  The alternative text comes from the page's "coverAlt" parameter.
+
+  Usage:
+    {{ partial "cover-img.html" (dict "page" . "width" 800 "class" "p-img" "eager" false) }}
+*/ -}}
+{{- $class := .class | default "cover" }}
+{{- with partial "cover.html" (dict "page" $.page "width" $.width) }}
+  <img class="{{ $class }}" src="{{ .RelPermalink }}"
+    {{- if ne .MediaType.SubType "svg+xml" }} width="{{ .Width }}" height="{{ .Height }}"{{ end }}
+    alt="{{ $.page.Params.coverAlt }}"
+    {{- if $.eager }} fetchpriority="high"{{ else }} loading="lazy"{{ end }} decoding="async">
+{{- else }}
+  <div class="{{ $class }} cover-placeholder" aria-hidden="true">
+    {{- with site.Params.smallLogo }}<img src="{{ . | relURL }}" alt="" width="96" height="96" loading="lazy">{{ end -}}
+  </div>
+{{- end }}

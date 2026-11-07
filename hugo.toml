@@ -1,0 +1,5 @@
+# Theme configuration, merged with the project configuration.
+# The templates use Language.Locale / Language.Label (0.158), Page.Rotate (0.153),
+# hugo.Sites (0.156) and Language.Translate (0.168).
+[module.hugoVersion]
+  min = "0.168.0"

@@ -1,0 +1,23 @@
+{{- /*
+  Returns the cover image of a page bundle (the resource named cover.*),
+  converted to WebP and at most "width" pixels wide, or false when there is none.
+
+  Usage:
+    {{ $img := partial "cover.html" (dict "page" . "width" 800) }}
+*/ -}}
+{{- $result := false }}
+{{- $width := .width | default 800 }}
+{{- with .page }}
+  {{- with .Resources.GetMatch "cover.*" }}
+    {{- if and (eq .ResourceType "image") (ne .MediaType.SubType "svg+xml") }}
+      {{- if gt .Width $width }}
+        {{- $result = .Resize (printf "%dx webp q85" $width) }}
+      {{- else }}
+        {{- $result = .Process "webp q85" }}
+      {{- end }}
+    {{- else }}
+      {{- $result = . }}
+    {{- end }}
+  {{- end }}
+{{- end }}
+{{- return $result }}

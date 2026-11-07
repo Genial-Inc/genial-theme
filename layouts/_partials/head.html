@@ -1,0 +1,41 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }} | {{ site.Title }}{{ end }}</title>
+<meta name="description" content="{{ or .Description site.Params.description }}">
+{{ with site.Params.author }}<meta name="author" content="{{ . }}">{{ end }}
+<meta name="theme-color" content="{{ site.Params.themeColor | default `#4d7f68` }}">
+<link rel="canonical" href="{{ .Permalink }}">
+
+{{- /* Links to every translation of this page, for search engines. */}}
+{{ if .IsTranslated }}
+  {{ range .Rotate "language" }}
+    <link rel="alternate" hreflang="{{ .Language.Locale }}" href="{{ .Permalink }}">
+    {{ if .Language.IsDefault }}<link rel="alternate" hreflang="x-default" href="{{ .Permalink }}">{{ end }}
+  {{ end }}
+{{ end }}
+
+{{ with .OutputFormats.Get "rss" }}
+  <link rel="{{ .Rel }}" type="{{ .MediaType.Type }}" href="{{ .Permalink }}" title="{{ site.Title }}">
+{{ end }}
+
+{{ with site.Params.favicon }}
+  <link rel="icon" type="image/png" href="{{ . | relURL }}">
+  <link rel="apple-touch-icon" href="{{ . | relURL }}">
+{{ end }}
+
+{{ partial "opengraph.html" . }}
+{{ partial "twitter_cards.html" . }}
+
+{{ with resources.Get "css/style.css" }}
+  {{ $css := . | minify | fingerprint }}
+  <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}" crossorigin="anonymous">
+{{ end }}
+
+{{- /* Brand colours come from the site configuration. */}}
+<style>
+  :root {
+    --brand-primary: {{ site.Params.themeColor | default `#4d7f68` | safeCSS }};
+    --brand-primary-strong: {{ site.Params.themeColorStrong | default `#2d5247` | safeCSS }};
+    --brand-on-primary: {{ site.Params.themeColorText | default `#ffffff` | safeCSS }};
+  }
+</style>

@@ -1,0 +1,154 @@
+{{ define "main" }}
+<h1 class="visually-hidden">{{ site.Title }}</h1>
+
+{{- /* HERO — texts come from params.<lang>.toml, the image from the featured project's cover. */}}
+{{ with site.Params.hero }}
+  {{ $hero := . }}
+  {{ $project := false }}
+  {{ with .project }}{{ $project = site.GetPage . }}{{ end }}
+
+  {{ $image := "" }}
+  {{ with .image }}
+    {{ $image = . | relURL }}
+  {{ else with $project }}
+    {{ with partial "cover.html" (dict "page" . "width" 1600) }}{{ $image = .RelPermalink }}{{ end }}
+  {{ end }}
+
+  {{ $kicker := .title }}
+  {{ if and (not $kicker) $project }}{{ $kicker = $project.LinkTitle }}{{ end }}
+
+  {{ $buttonURL := "" }}
+  {{ $buttonText := T "play" }}
+  {{ with .button }}
+    {{ with .url }}{{ $buttonURL = . }}{{ end }}
+    {{ with .text }}{{ $buttonText = . }}{{ end }}
+  {{ end }}
+  {{ if and (not $buttonURL) $project }}{{ $buttonURL = $project.Params.play }}{{ end }}
+
+  <section class="hero-banner"{{ with $image }} style="--hero-image: url('{{ . }}');"{{ end }}>
+    <div class="hero-banner__content">
+      {{ with $kicker }}
+        <p class="hero-kicker">
+          {{- with $project }}<a href="{{ .RelPermalink }}">{{ $kicker }}</a>{{ else }}{{ $kicker }}{{ end -}}
+        </p>
+      {{ end }}
+
+      {{ with .quote }}
+        <figure class="hero-quote">
+          <blockquote><p>{{ . }}</p></blockquote>
+          {{ with $hero.quoteAuthor }}<figcaption class="quote-author">— {{ . }}</figcaption>{{ end }}
+        </figure>
+      {{ else with .description }}
+        <p class="hero-subtitle">{{ . }}</p>
+      {{ end }}
+
+      {{ with $buttonURL }}
+        <a href="{{ . | relURL }}" class="btn hero-btn">{{ $buttonText }}</a>
+      {{ end }}
+    </div>
+  </section>
+{{ end }}
+
+{{- /* ABOUT */}}
+{{ with site.Params.about }}
+  <section class="about" id="about" aria-labelledby="about-title">
+    <div class="section-top">
+      <h2 id="about-title">{{ .title }}</h2>
+      {{ with .page }}{{ with site.GetPage . }}
+        <a href="{{ .RelPermalink }}" class="btn btn-outline">{{ T "learnMore" }}</a>
+      {{ end }}{{ end }}
+    </div>
+    <p class="about-p">{{ .description }}</p>
+  </section>
+{{ end }}
+
+{{- /* TEAM */}}
+{{ with site.Params.team }}
+  <section id="team" aria-labelledby="team-title">
+    <h2 id="team-title">{{ .title }}</h2>
+    <div class="team-layout">
+      <ul class="members">
+        {{ range .members }}
+          <li class="member-card">
+            <div class="circle">
+              {{ with .image }}
+                <img src="{{ . | relURL }}" alt="" width="130" height="130" loading="lazy">
+              {{ else }}
+                <span class="initial" aria-hidden="true">{{ substr (or .shortName .name) 0 1 }}</span>
+              {{ end }}
+            </div>
+            <h3>{{ .name }}</h3>
+            {{ with .description }}<p>{{ . }}</p>{{ end }}
+          </li>
+        {{ end }}
+      </ul>
+
+      {{ if .members }}
+        <form class="poll-box" data-poll data-thanks="{{ T "pollThanks" }}">
+          <fieldset>
+            <legend>{{ T "pollQuestion" }}</legend>
+            {{ range .members }}
+              <label><input type="radio" name="poll" value="{{ .shortName }}" required> {{ .shortName }}</label>
+            {{ end }}
+          </fieldset>
+          <button type="submit" class="btn btn-small">{{ T "pollVote" }}</button>
+          <p class="poll-status" role="status" data-poll-status></p>
+        </form>
+      {{ end }}
+    </div>
+  </section>
+{{ end }}
+
+{{- /* PROJECTS — every page of the "projects" section, newest first. */}}
+{{ with (where site.RegularPages "Section" "projects").ByDate.Reverse }}
+  <section id="projects" aria-labelledby="projects-title">
+    <div class="section-top">
+      <h2 id="projects-title">{{ T "projectsTitle" }}</h2>
+      {{ with site.GetPage "/projects" }}
+        <a href="{{ .RelPermalink }}" class="btn btn-outline">{{ T "allProjects" }}</a>
+      {{ end }}
+    </div>
+
+    <div class="carousel" data-carousel>
+      {{ $several := gt (len .) 1 }}
+      {{ if $several }}
+        <button class="arrow prev" type="button" aria-label="{{ T "previousProject" }}" data-carousel-prev>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.7 5.3a1 1 0 0 1 0 1.4L9.41 12l5.29 5.3a1 1 0 0 1-1.42 1.4l-6-6a1 1 0 0 1 0-1.4l6-6a1 1 0 0 1 1.42 0Z"/></svg>
+        </button>
+      {{ end }}
+
+      <ul class="carousel-content" data-carousel-track>
+        {{ range . }}
+          {{ partial "project-box.html" (dict "page" . "attrs" "data-carousel-slide") }}
+        {{ end }}
+      </ul>
+
+      {{ if $several }}
+        <button class="arrow next" type="button" aria-label="{{ T "nextProject" }}" data-carousel-next>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.3 18.7a1 1 0 0 1 0-1.4L14.59 12 9.3 6.7A1 1 0 1 1 10.7 5.3l6 6a1 1 0 0 1 0 1.4l-6 6a1 1 0 1 1-1.4-1.4Z"/></svg>
+        </button>
+      {{ end }}
+    </div>
+  </section>
+{{ end }}
+
+{{- /* CONTACT */}}
+{{ $links := site.Params.links }}
+{{ if or $links.contactForm $links.email $links.github }}
+  <section id="contact" class="cta" aria-labelledby="contact-title">
+    <h2 id="contact-title">{{ T "contactTitle" }}</h2>
+    {{ with $links.contactForm }}
+      <p class="cta-intro">{{ T "contactIntro" }}</p>
+      <a href="{{ . | relURL }}" class="btn btn-huge">{{ T "contactButton" }}</a>
+    {{ end }}
+    {{ if or $links.email $links.github }}
+      <p class="cta-alt">
+        {{ if $links.contactForm }}{{ T "contactAlt" }}{{ end }}
+        {{ with $links.email }}<a href="mailto:{{ . }}">{{ . }}</a>{{ end }}
+        {{ if and $links.email $links.github }} · {{ end }}
+        {{ with $links.github }}<a href="{{ . }}">{{ T "github" }}</a>{{ end }}
+      </p>
+    {{ end }}
+  </section>
+{{ end }}
+{{ end }}

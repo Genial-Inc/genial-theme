@@ -1,0 +1,13 @@
+{{ define "main" }}
+<section class="not-found">
+  <h1>404</h1>
+  {{- /* GitHub Pages serves a single 404 page for every URL, so show it in every language. */}}
+  {{ range hugo.Sites }}
+    <div class="not-found__lang" lang="{{ .Language.Locale }}">
+      <h2>{{ .Language.Translate "notFoundTitle" }}</h2>
+      <p>{{ .Language.Translate "notFound" }}</p>
+      <a class="btn" href="{{ .Home.RelPermalink }}">{{ .Language.Translate "backHome" }}</a>
+    </div>
+  {{ end }}
+</section>
+{{ end }}

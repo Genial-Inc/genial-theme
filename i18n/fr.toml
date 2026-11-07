@@ -1,0 +1,47 @@
+# Libellés de l'interface du thème. Un site peut les remplacer dans son propre dossier i18n/.
+
+# Accessibilité et navigation
+skipToContent = "Aller au contenu"
+mainNavigation = "Navigation principale"
+openMenu = "Ouvrir le menu"
+closeMenu = "Fermer le menu"
+chooseLanguage = "Langue"
+
+# Accueil
+learnMore = "En savoir plus"
+pollQuestion = "Qui est le plus beau ?"
+pollVote = "Voter"
+pollThanks = "Merci pour votre vote pour {name} ! Les résultats sont [REDACTED]."
+
+# Projets
+projectsTitle = "Projets"
+allProjects = "Tous les projets"
+previousProject = "Projet précédent"
+nextProject = "Projet suivant"
+viewProject = "Voir le projet"
+play = "Jouer"
+sourceCode = "Code source"
+officialPage = "Page officielle"
+backToProjects = "Retour aux projets"
+
+# Contact
+contactTitle = "Nous contacter"
+contactIntro = "Notre formulaire de contact a été conçu pendant la Nuit de l'Info 2025 pour être… exigeant. Bonne chance !"
+contactButton = "Nous contacter"
+contactAlt = "Il n'envoie rien pour de vrai. Pour nous joindre, passez plutôt par :"
+contactForm = "Formulaire de contact"
+email = "E-mail"
+github = "GitHub"
+
+# Pied de page
+footerCollective = "Le collectif"
+footerProjects = "Projets"
+footerContact = "Contact"
+footerTeam = "La team"
+studyProgram = "La DLMI à l'INU Champollion"
+madeWith = "Fait avec Hugo"
+
+# Erreur 404
+notFoundTitle = "Page introuvable"
+notFound = "Cette page n'existe pas (ou alors elle est [REDACTED])."
+backHome = "Retour à l'accueil"

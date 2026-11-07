@@ -1,0 +1,50 @@
+{{- $links := site.Params.links }}
+{{- $projectsSection := site.GetPage "/projects" }}
+<footer class="site-footer">
+  <div class="footer-cols">
+    <div class="footer-col footer-brand">
+      <a href="{{ site.Home.RelPermalink }}">
+        <img src="{{ site.Params.smallLogo | default site.Params.bigLogo | relURL }}" alt="{{ site.Title }}" width="72" height="72" loading="lazy">
+      </a>
+      {{ with site.Params.description }}<p>{{ . }}</p>{{ end }}
+    </div>
+
+    <section class="footer-col" aria-labelledby="footer-collective">
+      <h2 id="footer-collective">{{ T "footerCollective" }}</h2>
+      <ul>
+        {{ with site.Params.about.page }}{{ with site.GetPage . }}
+          <li><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></li>
+        {{ end }}{{ end }}
+        {{ with site.Params.team }}
+          <li><a href="{{ site.Home.RelPermalink }}#team">{{ T "footerTeam" }}</a></li>
+        {{ end }}
+        {{ with $links.studyProgram }}
+          <li><a href="{{ . }}">{{ T "studyProgram" }}</a></li>
+        {{ end }}
+      </ul>
+    </section>
+
+    {{ with $projectsSection }}
+      <section class="footer-col" aria-labelledby="footer-projects">
+        <h2 id="footer-projects">{{ T "footerProjects" }}</h2>
+        <ul>
+          {{ range first 4 .RegularPages.ByDate.Reverse }}
+            <li><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></li>
+          {{ end }}
+          <li><a href="{{ .RelPermalink }}">{{ T "allProjects" }}</a></li>
+        </ul>
+      </section>
+    {{ end }}
+
+    <section class="footer-col" aria-labelledby="footer-contact">
+      <h2 id="footer-contact">{{ T "footerContact" }}</h2>
+      <ul>
+        {{ with $links.contactForm }}<li><a href="{{ . | relURL }}">{{ T "contactForm" }}</a></li>{{ end }}
+        {{ with $links.email }}<li><a href="mailto:{{ . }}">{{ . }}</a></li>{{ end }}
+        {{ with $links.github }}<li><a href="{{ . }}">{{ T "github" }}</a></li>{{ end }}
+      </ul>
+    </section>
+  </div>
+
+  <p class="footer-bottom">© {{ now.Year }} {{ site.Params.author | default site.Title }} · {{ T "madeWith" }}</p>
+</footer>
