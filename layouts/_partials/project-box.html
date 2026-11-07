@@ -1,0 +1,22 @@
+{{- /*
+  A project summary card, used by the home page carousel and the projects list.
+
+  Usage:
+    {{ partial "project-box.html" (dict "page" . "showDate" true "attrs" "data-carousel-slide") }}
+*/ -}}
+{{- with .page }}
+<li class="project-box"{{ with $.attrs }} {{ . | safeHTMLAttr }}{{ end }}>
+  <div class="p-info">
+    {{- if or .Params.event $.showDate }}
+      <p class="p-meta">
+        {{- with .Params.event }}<span>{{ . }}</span>{{ end }}
+        {{- if $.showDate }}<time datetime="{{ .Date.Format `2006-01-02` }}">{{ .Date | time.Format ":date_long" }}</time>{{ end -}}
+      </p>
+    {{- end }}
+    <h3><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></h3>
+    {{ with .Description }}<p>{{ . }}</p>{{ end }}
+    <a href="{{ .RelPermalink }}" class="btn btn-small" aria-hidden="true" tabindex="-1">{{ T "viewProject" }}</a>
+  </div>
+  {{ partial "cover-img.html" (dict "page" . "width" 640 "class" "p-img") }}
+</li>
+{{- end }}

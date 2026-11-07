@@ -1,0 +1,32 @@
+{{ define "main" }}
+<article class="project-presentation">
+  <header class="single-header">
+    <p class="p-meta">
+      {{- with .Params.event }}<span>{{ . }}</span>{{ end -}}
+      <time datetime="{{ .Date.Format `2006-01-02` }}">{{ .Date | time.Format ":date_long" }}</time>
+    </p>
+    <h1>{{ .Title }}</h1>
+    {{ with .Description }}<p class="lead">{{ . }}</p>{{ end }}
+  </header>
+
+  {{ partial "cover-img.html" (dict "page" . "width" 1200 "class" "single-cover" "eager" true) }}
+
+  {{ if or .Params.play .Params.source .Params.link }}
+    <ul class="project-actions">
+      {{ with .Params.play }}<li><a class="btn" href="{{ . | relURL }}">{{ $.Params.playLabel | default (T "play") }}</a></li>{{ end }}
+      {{ with .Params.source }}<li><a class="btn btn-outline" href="{{ . }}">{{ T "sourceCode" }}</a></li>{{ end }}
+      {{ with .Params.link }}<li><a class="btn btn-outline" href="{{ . }}">{{ T "officialPage" }}</a></li>{{ end }}
+    </ul>
+  {{ end }}
+
+  <div class="single-content">
+    {{ .Content }}
+  </div>
+
+  <div class="back-link">
+    {{ with .Parent }}
+      <a href="{{ .RelPermalink }}" class="btn btn-outline">← {{ T "backToProjects" }}</a>
+    {{ end }}
+  </div>
+</article>
+{{ end }}

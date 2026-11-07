@@ -1,0 +1,22 @@
+{{- /*
+  Links to the current page in every language.
+  When a page has no translation, the link falls back to the home page of that language.
+*/ -}}
+{{ if hugo.IsMultilingual }}
+  {{ $variants := .Rotate "language" }}
+  <nav class="lang-switch" aria-label="{{ T "chooseLanguage" }}">
+    <ul>
+      {{- range hugo.Sites }}
+        {{- $lang := .Language }}
+        {{- $target := .Home }}
+        {{- range $variants }}
+          {{- if eq .Language.Name $lang.Name }}{{ $target = . }}{{ end }}
+        {{- end }}
+        <li>
+          <a href="{{ $target.RelPermalink }}" hreflang="{{ $lang.Locale }}" lang="{{ $lang.Locale }}" title="{{ $lang.Label }}"
+            {{- if eq $lang.Name site.Language.Name }} aria-current="true"{{ end }}>{{ upper $lang.Name }}</a>
+        </li>
+      {{- end }}
+    </ul>
+  </nav>
+{{ end }}

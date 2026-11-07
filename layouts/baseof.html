@@ -1,25 +1,22 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="{{ site.Language.Locale }}" dir="{{ or site.Language.Direction `ltr` }}">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ .Title }} | Genial Inc.</title>
-    <link rel="icon" type="image/png" href="{{ .Site.Params.favicon | default "/images/genial_logo_petit.png" }}">
-    <link rel="shortcut icon" type="image/png" href="{{ .Site.Params.favicon | default "/images/genial_logo_petit.png" }}">
-
-    {{ $cssMain := resources.Get "css/style.css" | minify }}
-    <link rel="stylesheet" type="text/css" href="{{ $cssMain.RelPermalink }}">
+  {{ partial "head.html" . }}
 </head>
-<body style="--brand-primary: {{ .Site.Params.themeColor | default "#4d7f68" }}; --brand-primary-strong: {{ .Site.Params.themeColorStrong | default "#2d5247" }};">
-    {{ partial "header.html" . }}
-    
-    <main>
-        {{ block "main" . }}{{ end }}
-    </main>
+<body>
+  <a class="skip-link" href="#main">{{ T "skipToContent" }}</a>
 
-    {{ partial "footer.html" . }}
+  {{ partial "header.html" . }}
 
-    {{ $jsMain := resources.Get "js/main.js" | minify }}
-    <script src="{{ $jsMain.RelPermalink }}" defer></script>
+  <main id="main" tabindex="-1">
+    {{ block "main" . }}{{ end }}
+  </main>
+
+  {{ partial "footer.html" . }}
+
+  {{ with resources.Get "js/main.js" }}
+    {{ $js := . | js.Build (dict "minify" hugo.IsProduction) | fingerprint }}
+    <script type="module" src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" crossorigin="anonymous"></script>
+  {{ end }}
 </body>
 </html>

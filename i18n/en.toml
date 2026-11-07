@@ -1,0 +1,47 @@
+# Theme interface labels. A site can override them in its own i18n/ directory.
+
+# Accessibility and navigation
+skipToContent = "Skip to content"
+mainNavigation = "Main navigation"
+openMenu = "Open menu"
+closeMenu = "Close menu"
+chooseLanguage = "Language"
+
+# Home page
+learnMore = "Learn more"
+pollQuestion = "Who is the best-looking?"
+pollVote = "Vote"
+pollThanks = "Thanks for voting for {name}! The results are [REDACTED]."
+
+# Projects
+projectsTitle = "Projects"
+allProjects = "All projects"
+previousProject = "Previous project"
+nextProject = "Next project"
+viewProject = "View project"
+play = "Play"
+sourceCode = "Source code"
+officialPage = "Official page"
+backToProjects = "Back to projects"
+
+# Contact
+contactTitle = "Contact us"
+contactIntro = "Our contact form was designed during the Nuit de l'Info 2025 to be… demanding. Good luck! (It is in French.)"
+contactButton = "Contact us"
+contactAlt = "It doesn't actually send anything. To reach us, use:"
+contactForm = "Contact form"
+email = "Email"
+github = "GitHub"
+
+# Footer
+footerCollective = "The collective"
+footerProjects = "Projects"
+footerContact = "Contact"
+footerTeam = "The team"
+studyProgram = "The DLMI at INU Champollion"
+madeWith = "Made with Hugo"
+
+# 404 error
+notFoundTitle = "Page not found"
+notFound = "This page doesn't exist (or it is [REDACTED])."
+backHome = "Back to the home page"

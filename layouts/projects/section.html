@@ -1,0 +1,15 @@
+{{ define "main" }}
+<header class="list-header">
+  <h1>{{ .Title }}</h1>
+  {{ with .Content }}<div class="about-p">{{ . }}</div>{{ end }}
+</header>
+
+<section class="projects" aria-labelledby="catalog-title">
+  <h2 id="catalog-title" class="visually-hidden">{{ .Title }}</h2>
+  <ul class="catalog">
+    {{ range .RegularPages.ByDate.Reverse }}
+      {{ partial "project-box.html" (dict "page" . "showDate" true) }}
+    {{ end }}
+  </ul>
+</section>
+{{ end }}
