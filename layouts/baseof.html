@@ -1,25 +1,34 @@
-<!DOCTYPE html>
-<html lang="fr">
+<!doctype html>
+<html lang="{{ site.Language.Lang }}" dir="{{ site.Language.Direction | default "ltr" }}">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ .Title }} | Genial Inc.</title>
-    <link rel="icon" type="image/png" href="{{ .Site.Params.favicon | default "/images/genial_logo_petit.png" }}">
-    <link rel="shortcut icon" type="image/png" href="{{ .Site.Params.favicon | default "/images/genial_logo_petit.png" }}">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="{{ .Description | default site.Params.description }}">
+    <meta name="author" content="{{ site.Params.author }}">
+    <meta name="theme-color" content="{{ site.Params.themeColor | default "#ed7d44" }}">
+    <meta name="color-scheme" content="light">
+    <link rel="canonical" href="{{ .Permalink }}">
+    {{ range .AllTranslations }}
+    <link rel="alternate" hreflang="{{ .Language.Lang }}" href="{{ .Permalink }}">
+    {{ end }}
+    <title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }} | {{ site.Title }}{{ end }}</title>
+    <link rel="icon" type="image/png" href="{{ site.Params.favicon | relURL }}">
+    <link rel="shortcut icon" type="image/png" href="{{ site.Params.favicon | relURL }}">
 
-    {{ $cssMain := resources.Get "css/style.css" | minify }}
-    <link rel="stylesheet" type="text/css" href="{{ $cssMain.RelPermalink }}">
+    {{ $style := resources.Get "css/style.css" | minify | fingerprint }}
+    <link rel="stylesheet" href="{{ $style.RelPermalink }}" integrity="{{ $style.Data.Integrity }}" crossorigin="anonymous">
 </head>
-<body style="--brand-primary: {{ .Site.Params.themeColor | default "#4d7f68" }}; --brand-primary-strong: {{ .Site.Params.themeColorStrong | default "#2d5247" }};">
+<body style="--brand-primary: {{ site.Params.themeColor | default "#ed7d44" }}; --brand-primary-strong: {{ site.Params.themeColorStrong | default "#dc733e" }};">
+    <a class="skip-link" href="#main-content">{{ T "skip_to_content" }}</a>
     {{ partial "header.html" . }}
-    
-    <main>
+
+    <main id="main-content">
         {{ block "main" . }}{{ end }}
     </main>
 
     {{ partial "footer.html" . }}
 
-    {{ $jsMain := resources.Get "js/main.js" | minify }}
-    <script src="{{ $jsMain.RelPermalink }}" defer></script>
+    {{ $script := resources.Get "js/main.js" | minify | fingerprint }}
+    <script src="{{ $script.RelPermalink }}" integrity="{{ $script.Data.Integrity }}" crossorigin="anonymous" defer></script>
 </body>
 </html>

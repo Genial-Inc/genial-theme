@@ -1,16 +1,25 @@
 {{ define "main" }}
-<article class="project-presentation">
-    <div class="single-header">
+<article class="page-presentation">
+    <header class="single-header">
+        <p class="section-kicker">{{ if eq .Section "projects" }}Genial Inc. / {{ T "projects_title" }}{{ else }}Genial Inc.{{ end }}</p>
         <h1>{{ .Title }}</h1>
-        <p class="meta">Publié le {{ .Date.Format "02/01/2006" }}</p>
-    </div>
+        {{ if and (eq .Section "projects") (not .Date.IsZero) }}
+            <p class="project-date">{{ T "published_on" }} {{ .Date | time.Format ":date_long" }}</p>
+        {{ end }}
+    </header>
 
-    <div class="single-content">
+    <div class="single-content page-content">
         {{ .Content }}
     </div>
 
-    <div class="back-link">
-        <a href="/#projects" class="btn btn-outline">← Retour aux projets</a>
+    <div class="page-actions">
+        {{ if eq .Section "projects" }}
+            {{ with .Params.playURL }}<a href="{{ . }}" class="btn">{{ T "view_game" }}</a>{{ end }}
+            {{ with .Params.projectURL }}<a href="{{ . }}" class="btn btn-outline" target="_blank" rel="noopener noreferrer">{{ $.Params.projectURLLabel | default (T "source_code") }}</a>{{ end }}
+            <a href="{{ "projects/" | relLangURL }}" class="text-link">← {{ T "back_to_projects" }}</a>
+        {{ else }}
+            <a href="{{ site.Home.RelPermalink }}" class="text-link">← {{ T "back_home" }}</a>
+        {{ end }}
     </div>
 </article>
 {{ end }}

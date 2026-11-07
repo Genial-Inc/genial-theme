@@ -1,19 +1,34 @@
-<header>
+<header class="site-header">
     <div class="nav-container">
         <div class="logo">
-            <a href="{{ .Site.BaseURL }}" aria-label="Genial Inc.">
-                <img src="{{ .Site.Params.bigLogo | default "/images/genial_logo_petit.png" }}" alt="Genial Inc. logo" class="brand-logo">
+            <a href="{{ site.Home.RelPermalink }}" aria-label="{{ T "logo_alt" }}">
+                <img src="{{ site.Params.bigLogo | relURL }}" alt="{{ T "logo_alt" }}" class="brand-logo">
             </a>
         </div>
-        <button class="menu-toggle" aria-label="Toggle navigation" aria-expanded="false">
-            <span class="bar"></span>
-            <span class="bar"></span>
-            <span class="bar"></span>
-        </button>
-        <nav>
-            {{ range .Site.Menus.main }}
-            <a href="{{ .URL }}"{{ if eq .URL "/" }} class="active"{{ end }}>{{ .Name }}</a>
+
+        <nav id="primary-navigation" aria-label="{{ T "primary_navigation" }}">
+            {{ range site.Menus.main }}
+                {{ $href := .URL }}
+                {{ if strings.HasPrefix $href "#" }}
+                    {{ $href = printf "%s%s" site.Home.RelPermalink $href }}
+                {{ else if eq .Identifier "contact" }}
+                    {{ $href = printf "%scontact/" site.Home.RelPermalink }}
+                {{ end }}
+                <a href="{{ $href }}"{{ if and $.IsHome (eq .Identifier "home") }} aria-current="page"{{ end }}>{{ .Name }}</a>
             {{ end }}
         </nav>
+
+        <div class="nav-actions">
+            <nav class="language-switcher" aria-label="{{ T "language_switcher" }}">
+                {{ range .AllTranslations }}
+                    <a href="{{ .RelPermalink }}" lang="{{ .Language.Lang }}" hreflang="{{ .Language.Lang }}"{{ if eq .Language.Lang site.Language.Lang }} aria-current="page"{{ end }}>{{ .Language.Lang | upper }}</a>
+                {{ end }}
+            </nav>
+            <button class="menu-toggle" type="button" aria-label="{{ T "open_navigation" }}" aria-controls="primary-navigation" aria-expanded="false">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+        </div>
     </div>
 </header>

@@ -1,32 +1,32 @@
-
 {{ define "main" }}
-
-<div class="list-header" style="margin-bottom: 3rem;">
+<header class="list-header">
+    <p class="section-kicker">Genial Inc.</p>
     <h1>{{ .Title }}</h1>
-    {{ if .Content }}
-        <div class="about-p">{{ .Content }}</div>
-    {{ end }}
-</div>
+    {{ with .Description }}<p class="list-description">{{ . }}</p>{{ end }}
+    {{ with .Content }}<div class="page-content">{{ . }}</div>{{ end }}
+</header>
 
-<section class="projects">
-    <!-- Using a flex column so the project cards stack neatly into a catalog -->
-    <div class="catalog-stack" style="display: flex; flex-direction: column; gap: 2rem;">
-        
-        {{ range .Pages }}
-        <div class="project-box">
-            <div class="p-info">
-                <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
-                <p style="font-size: 0.85rem; opacity: 0.7; margin-bottom: 0.5rem;">
-                    Ajouté le {{ .Date.Format "02/01/2006" }}
-                </p>
-                <p>{{ .Description }}</p>
-                <a href="{{ .RelPermalink }}" class="btn btn-small">Voir les détails</a>
-            </div>
-            <div class="p-img">🎮</div>
-        </div>
+{{ $pages := .RegularPages.ByDate.Reverse }}
+{{ if $pages }}
+<section class="project-catalog" aria-label="{{ .Title }}">
+    {{ range $pages }}
+    {{ $page := . }}
+    <article class="catalog-card">
+        {{ with $page.Params.image }}
+            <img src="{{ . | relURL }}" alt="{{ $page.Params.imageAlt | default (T "project_image_alt") }}" loading="lazy">
+        {{ else }}
+            <div class="catalog-placeholder" aria-hidden="true">GENIAL</div>
         {{ end }}
-
-    </div>
+        <div class="catalog-info">
+            <p class="project-date">{{ T "published_on" }} {{ $page.Date | time.Format ":date_long" }}</p>
+            <h2><a href="{{ $page.RelPermalink }}">{{ $page.Title }}</a></h2>
+            <p>{{ $page.Description }}</p>
+            <a href="{{ $page.RelPermalink }}" class="btn btn-small">{{ T "view_details" }}</a>
+        </div>
+    </article>
+    {{ end }}
 </section>
-
+{{ else }}
+<p>{{ .Description }}</p>
+{{ end }}
 {{ end }}
